@@ -6,7 +6,7 @@ This module directly interacts with [The BBC News Labs APIs](http://docs.bbcnews
 
 ## API usage
 
-Once you bulid this module with Maven, you can invoke getNewsFromNYTimes().
+Once you bulid this module with Maven, you can write the following code for testing:
 
 ``` java
 
