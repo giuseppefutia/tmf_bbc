@@ -40,7 +40,7 @@ public class BBCEnhancer {
 
     }
 
-    private String createURL(String URI) {
+    public String createURL(String URI) {
         String result = "";
         try {
             result = BBC_API + URLEncoder.encode(URI, "UTF-8")  + "&limit=" + LIMIT + "&apikey=" + API_KEY;
@@ -50,7 +50,7 @@ public class BBCEnhancer {
         return result;
     }
 
-    private String getResultFromAPI(String urlStr, String type) {
+    public String getResultFromAPI(String urlStr, String type) {
 
         LOG.debug("[getResultFromAPI] - BEGIN");
         String result = "";
