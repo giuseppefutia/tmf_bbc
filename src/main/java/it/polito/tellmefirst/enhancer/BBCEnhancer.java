@@ -1,4 +1,4 @@
-package it.polito.tellmefirst.loadmanager;
+package it.polito.tellmefirst.enhancer;
 
 /*
 * TellMeFirst - A Knowledge Discovery Application
