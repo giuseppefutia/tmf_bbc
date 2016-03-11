@@ -9,8 +9,8 @@ This module directly interacts with [The BBC News Labs APIs](http://docs.bbcnews
 Once you bulid this module with Maven, you can write the following code for testing:
 
 ``` java
-
-	BBCEnhancer bbcEnhancer = new BBCEnhancer();
-    String URL = bbcEnhancer.createURL("http://dbpedia.org/resource/Barack_Obama");
+    BBCEnhancer bbcEnhancer = new BBCEnhancer();
+    String API_KEY = bbcEnhancer.getPropValues();
+    String URL = bbcEnhancer.createURL("http://dbpedia.org/resource/Barack_Obama", API_KEY);
     String result = bbcEnhancer.getResultFromAPI(URL, "application/json");
 ```

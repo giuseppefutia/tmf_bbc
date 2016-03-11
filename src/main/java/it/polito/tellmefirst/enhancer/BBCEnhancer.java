@@ -19,12 +19,12 @@ package it.polito.tellmefirst.enhancer;
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Properties;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -32,18 +32,31 @@ public class BBCEnhancer {
 
     static Log LOG = LogFactory.getLog(BBCEnhancer.class);
 
-    final static String BBC_API = "http://data.test.bbc.co.uk/bbcrd-juicer/articles?facets[]=";
-    final static String API_KEY = "9OHbOpZpVh9tQZBDjwTlTmsCF2Ce0yGQ";
-    final static String LIMIT = "10";
+    final static String BBC_API = "http://juicer.api.bbci.co.uk/articles?facets[]=";
 
-    public BBCEnhancer(){
+    public BBCEnhancer() {
 
     }
 
-    public String createURL(String URI) {
+    public String getPropValues() throws IOException {
+        Properties prop = new Properties();
+        String propFileName = "api.properties";
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+        String apiKey = "";
+        if (inputStream != null) {
+            prop.load(inputStream);
+            apiKey = prop.getProperty("API_KEY");
+        } else {
+            throw new FileNotFoundException();
+        }
+        inputStream.close();
+        return apiKey;
+    }
+
+    public String createURL(String URI, String API_KEY) {
         String result = "";
         try {
-            result = BBC_API + URLEncoder.encode(URI, "UTF-8")  + "&limit=" + LIMIT + "&apikey=" + API_KEY;
+            result = BBC_API + URLEncoder.encode(URI, "UTF-8") + "&api_key=" + API_KEY;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -77,9 +90,11 @@ public class BBCEnhancer {
         return result;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         BBCEnhancer bbcEnhancer = new BBCEnhancer();
-        String URL = bbcEnhancer.createURL("http://dbpedia.org/resource/Barack_Obama");
+        String API_KEY = bbcEnhancer.getPropValues();
+        String URL = bbcEnhancer.createURL("http://dbpedia.org/resource/Barack_Obama", API_KEY);
         String result = bbcEnhancer.getResultFromAPI(URL, "application/json");
+        LOG.info(result);
     }
 }
